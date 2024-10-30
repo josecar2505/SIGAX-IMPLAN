@@ -1,0 +1,237 @@
+.plan-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 40px auto;
+}
+
+.select-dependencias {
+    margin-bottom: 20px;
+}
+
+.asignar-auditorias-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    transition: all 0.3s ease-in-out;
+    box-sizing: border-box;
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.table-wrapper {
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+.table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-wrapper th, 
+.table-wrapper td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+td.left-align{
+    text-align: left;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Mantiene el ancho de la tabla */
+    table-layout: auto; /* Distribuye el ancho entre las columnas */
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    white-space: nowrap; /* Evita que el contenido se ajuste en varias líneas */
+}
+
+th {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    color: #495057;
+    transition: background-color 0.3s;
+}
+
+th:hover {
+    background-color: #e9ecef;
+}
+
+tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+table input[type="number"] {
+    width: 90px; 
+    padding: 6px;
+    box-sizing: border-box; 
+    margin-bottom: 15px;
+    text-align: center; 
+}
+
+table select {
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+/* Estilos para el label Total de Auditorías */
+label {
+    display: block; /* Asegura que el label ocupe toda la línea */
+    margin: 20px 0 10px; /* Margen superior, inferior y derecho */
+    font-size: 18px; /* Aumentar tamaño de fuente */
+    color: #333; /* Color del texto */
+}
+
+.button-container {
+    display: flex; /* Asegura que los botones estén en fila */
+    justify-content: space-between; /* Distribuye el espacio entre los botones */
+    margin-top: 30px; /* Espacio superior para separar de otros elementos */
+}
+
+.button-volver,
+.button-guardar {
+    flex: 1; /* Ambos botones ocuparán el mismo espacio */
+    padding: 12px; /* Reducir el padding para hacerlos más pequeños */
+    font-size: 16px; /* Disminuir el tamaño de la fuente */
+    border: none;
+    border-radius: 8px; /* Bordes redondeados más pronunciados */
+    color: white; /* Color del texto */
+    transition: background-color 0.3s, transform 0.2s; /* Añadir transición para un efecto más suave */
+    margin: 0 15px; /* Espacio lateral entre botones */
+}
+
+.button-volver {
+    background-color: #d2d7db; /* Color del botón "Volver" */
+}
+
+.button-volver:hover {
+    background-color: #ad9f9f;
+    color: white;
+    transform: scale(1.05); /* Ligeramente agrandar al pasar el mouse */
+}
+
+.button-guardar {
+    background-color: #28a745; /* Color del botón "Guardar" */
+}
+
+.button-guardar:hover {
+    background-color: #218838; /* Color al pasar el mouse */
+    transform: scale(1.05); /* Ligeramente agrandar al pasar el mouse */
+}
+
+
+/* Estilo del botón Siguiente */
+.button-siguiente {
+    width: 100%; /* Botón del ancho del contenedor */
+    padding: 12px; /* Ajusta el padding según sea necesario */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #28a745; /* Color verde */
+    color: white; /* Texto blanco */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px; /* Espacio entre el input y el botón */
+}
+
+.button-siguiente:hover {
+    background-color: #218838; /* Color más oscuro al pasar el mouse */
+}
+
+/* Estilo del botón Eliminar */
+.button-eliminar {
+    padding: 10px;
+    color: white;
+    background-color: #e6dede;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button-eliminar:hover {
+    background-color: #e42c2c; /* Color más oscuro al pasar el mouse */
+    color: white;
+}
+
+.input-total-auditorias {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    th,
+    td {
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+
+    .button-volver,
+    .button-guardar,
+    .button-siguiente {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    /* Ancho de los inputs en pantallas medianas */
+    table input[type="number"] {
+        width: 75px;
+    }
+}
+
+@media (max-width: 576px) {
+    table {
+        font-size: 14px;
+    }
+
+    th,
+    td {
+        font-size: 12px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    /* Botones en columna en pantallas pequeñas */
+    .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Inputs más pequeños en pantallas pequeñas */
+    table input[type="number"] {
+        width: 60px;
+    }
+}

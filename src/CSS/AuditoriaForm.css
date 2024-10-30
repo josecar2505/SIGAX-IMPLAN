@@ -1,0 +1,101 @@
+.background-container {
+    background-image: url('../assets/fondo.jpg'); /* Reemplaza con la URL de tu imagen */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; /* Permite que el fondo ocupe toda la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0; /* Añade padding vertical para el margen superior e inferior */
+}
+
+.auditoria-form {
+    max-width: 600px; /* Establece un ancho máximo */
+    width: 90%; /* Permite que el formulario se ajuste a la pantalla */
+    padding: 20px; /* Reducido para menos espacio interno */
+    border: none; /* Elimina el borde */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con transparencia */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+    position: relative;
+    backdrop-filter: blur(10px); /* Efecto de desenfoque de fondo */
+    margin: 20px; /* Añade margen superior e inferior al formulario */
+}
+
+.auditoria-title {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 15px; /* Reduce el margen inferior del título */
+}
+
+.auditoria-form label {
+    font-weight: bold;
+    margin-bottom: 5px; /* Espacio entre etiqueta y campo reducido */
+    display: block;
+    color: #555;
+}
+
+.auditoria-form input[type="text"], 
+.auditoria-form select, 
+.auditoria-form input[type="date"], 
+.auditoria-form .Select__control {
+    width: 100%;
+    padding: 10px; /* Reduce el padding interno */
+    margin-bottom: 15px; /* Reduce el espacio entre los campos de entrada */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+}
+
+
+.fecha-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.fecha-container > div {
+    flex: 1;
+}
+
+/* Nueva clase para alinear los botones en una fila */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttonAuditoriaForm,
+.buttonBack {
+    width: 48%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttonAuditoriaForm {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.buttonAuditoriaForm:hover {
+    background-color: #45a049;
+}
+
+.buttonBack {
+    background-color: #e0d5d5;
+    color: white;
+}
+
+.buttonBack:hover {
+    background-color: #ff4d4d;
+}
+
+.snackbar {
+    bottom: 50px;
+}

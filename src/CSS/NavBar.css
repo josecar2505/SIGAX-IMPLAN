@@ -1,0 +1,134 @@
+/* Estilo general del navbar */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #357a38; /* Color verde */
+    padding: 10px 20px; /* Aumentado el padding vertical */
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo a la izquierda */
+.navbar-logo-left img {
+    height: 50px; /* Aumentado para mayor tamaño */
+    width: auto;
+}
+
+/* Logo a la derecha */
+.navbar-logo-right img {
+    height: 50px; /* Aumentado para mayor tamaño */
+    width: auto;
+}
+
+/* Enlaces del menú */
+.navbar-links {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px; /* Aumentado tamaño de fuente */
+    padding: 10px 12px; /* Aumentado padding vertical */
+    transition: background-color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    background-color: #45a049; /* Color verde más oscuro al pasar el mouse */
+    border-radius: 5px;
+}
+
+/* Icono de logout */
+.icono-logout .logout-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.icono-logout .logout-button:hover {
+    color: #f0f0f0;
+}
+
+/* Espacio entre los íconos */
+.icono-logout {
+    margin-left: 20px; /* Aumentar el margen para separarlos */
+}
+
+.menu-toggle {
+    display: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Menú móvil */
+.navbar-links.open {
+    display: block;
+    position: absolute;
+    top: 70px; /* Ajustado para mantener la distancia correcta */
+    right: 20px;
+    background-color: white; /* Fondo blanco para el menú móvil */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-links.open a {
+    display: block;
+    padding: 10px 20px;
+    color: #357a38; /* Color verde para los enlaces */
+    font-size: 18px; /* Aumentado tamaño de fuente */
+    border-bottom: 1px solid #444; /* Separación entre los enlaces */
+}
+
+/* Cambiar el color de fondo al pasar el mouse */
+.navbar-links.open a:hover {
+    background-color: #e0f2e0; /* Fondo verde claro al pasar el mouse */
+    border-radius: 5px; /* Borde redondeado para el efecto hover */
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    /* Ocultar los enlaces por defecto */
+    .navbar-links {
+        display: none;
+        flex-direction: column;
+        background-color: #fff; /* Asegurarse de que el fondo es blanco */
+        position: absolute;
+        top: 70px; /* Ajustado para mantener la distancia correcta */
+        right: 20px;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-links a {
+        padding: 10px 20px;
+        font-size: 18px; /* Aumentado tamaño de fuente */
+        color: #357a38; /* Color verde para los enlaces */
+        border-bottom: 1px solid #444;
+    }
+
+    /* Mostrar el menú móvil */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Logo centrado en móvil */
+    .navbar-logo-left,
+    .navbar-logo-right {
+        display: none;
+    }
+
+    /* Estilo de los enlaces del menú móvil cuando está abierto */
+    .navbar-links.open {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+    }
+}

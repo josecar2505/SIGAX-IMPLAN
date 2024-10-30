@@ -1,0 +1,91 @@
+.plan-auditorias-container {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    overflow-x: auto; /* Para permitir desplazamiento horizontal */
+}
+
+.plan-auditorias-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Fijar el ancho de las columnas */
+    word-wrap: break-word; /* Permitir que el texto largo se ajuste */
+}
+
+.plan-auditorias-thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #ddd;
+}
+
+.plan-auditorias-tbody td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    white-space: normal; /* Evitar que el contenido se mantenga en una línea */
+    word-break: break-word; /* Permitir quiebre de palabras largas */
+}
+
+/* Alternar color de fondo para las filas */
+.plan-auditorias-tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover en las filas de la tabla */
+.plan-auditorias-tbody tr:hover {
+    background-color: #ddd;
+}
+
+.plan-auditorias-button {
+    background-color: transparent; /* Color de fondo verde */
+    color: #4CAF50; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cursor de puntero */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+}
+
+.plan-auditorias-button:hover {
+    background-color: transparent;
+    color:#45A049; /* Color de fondo verde más oscuro al pasar el mouse */
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .plan-auditorias-container {
+        overflow-x: auto; /* Permitir scroll horizontal */
+    }
+
+    .plan-auditorias-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto; /* Cambiar a auto para mayor flexibilidad en pantallas pequeñas */
+    }
+
+    /* Mantén el encabezado visible */
+    .plan-auditorias-thead th {
+        display: table-cell; /* Mantener encabezado de la tabla visible */
+    }
+
+    /* No apilar las celdas en bloque, mantener el formato de tabla */
+    .plan-auditorias-tbody td {
+        display: table-cell; /* Mantener celdas en formato tabla */
+        padding: 8px;
+        white-space: nowrap; /* Evitar que el contenido se rompa en varias líneas */
+    }
+
+    .plan-auditorias-tbody tr {
+        display: table-row; /* Mantener filas en formato tabla */
+    }
+
+    .plan-auditorias-tbody td:before {
+        content: none; /* No mostrar data-label */
+    }
+}

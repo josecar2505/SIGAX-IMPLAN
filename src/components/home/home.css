@@ -1,0 +1,68 @@
+body {
+  margin: 0; /* Elimina los márgenes predeterminados */
+  padding: 0; /* Elimina el padding predeterminado */
+  font-family: 'Arial', sans-serif; 
+}
+
+.divider {
+  height: 0.5px; /* Define el grosor de la línea */
+  background-color: black; /* Establece el color de la línea en negro */
+  width: 25%; /* La línea ocupará el 20% del ancho del contenedor padre */
+  margin: 3px 0; /* Aplica márgenes de 3px arriba y abajo de la línea */
+}
+
+/* Contenedor principal que ocupa toda la pantalla (100vh = 100% de la altura de la ventana) */
+.home-container {
+  display: flex; /* Usa flexbox para centrar el contenido */
+  flex-direction: column; /* Alinea los elementos en una columna */
+  align-items: center; /* Centra horizontalmente los elementos hijos */
+  justify-content: center; /* Centra verticalmente los elementos hijos */
+  height: 100vh; /* Ocupa el 100% de la altura de la ventana */
+  background-image: url('../../assets/fondo.jpg'); /* Imagen de fondo, se obtiene de la carpeta assets */
+  background-size: cover; /* La imagen de fondo cubrirá todo el contenedor */
+  background-position: center; /* La imagen estará centrada en el contenedor */
+}
+
+/* Contenedor para el logo */
+.logo-container {
+  margin-bottom: 20px; /* Separa el logo de los elementos que están debajo, con un margen inferior de 20px */
+}
+
+/* Estilo para la imagen del logo */
+.logo {
+  width: 150px; /* El logo tendrá un ancho de 150px */
+  height: auto; /* La altura se ajustará automáticamente en función del ancho, para mantener las proporciones */
+}
+
+/* Estilo para el título principal */
+.title {
+  font-size: 2.5rem; /* El tamaño de la fuente es de 2.5 rem (1 rem equivale al tamaño de la fuente raíz) */
+  color: #3b3b3b; /* El color del texto es gris oscuro */
+  margin: 0; /* Sin márgenes alrededor del título */
+}
+
+/* Estilo para el subtítulo */
+.subtitle {
+  font-size: 1rem; /* El tamaño de la fuente es de 1 rem */
+  color: #707070; /* El color del texto es gris claro */
+  margin: 10px 0 40px 0; /* Margen de 10px arriba y 40px abajo, sin margen a los lados */
+}
+
+/* Estilo para el botón de acceso */
+.access-button {
+  font-size: 1.1rem; /* El tamaño de la fuente es de 1 rem */
+  padding: 10px 20px; /* Espaciado interno de 10px arriba y abajo, 20px a los lados */
+  background-color: #2e7344; /* Color del botón */
+  color: white; /* El texto es blanco */
+  border: none; /* Sin borde alrededor del botón */
+  cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre el botón */
+  border-radius: 5px; /* Bordes redondeados con un radio de 5px */
+  transition: background-color 0.3s ease; /* Transición suave en el cambio de color de fondo al hacer hover */
+  text-decoration: none; /* Elimina cualquier subrayado del texto del botón */
+}
+
+/* Efecto hover (al pasar el cursor sobre el botón) */
+.access-button:hover {
+  background-color: #42a561; /* Color del botón al pasar el cursor */
+}
+

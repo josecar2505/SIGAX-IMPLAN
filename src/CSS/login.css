@@ -1,0 +1,193 @@
+* {
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Evita el desbordamiento */
+    position: relative;
+}
+
+.login-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../assets/fondo.jpg'); /* Cambia esta ruta a la de tu imagen */
+    background-size: cover;
+    background-position: center;
+    filter: blur(2px); /* Ajusta el nivel de difuminado aquí */
+    z-index: 1; /* Asegúrate de que el fondo esté detrás */
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.8); /* Color de fondo blanco con opacidad */
+    border-radius: 8px;
+    box-shadow: 0 0 30px #0000001a;
+    display: flex;
+    height: 550px;
+    max-width: 900px;
+    overflow: hidden;
+    width: 100%;
+    z-index: 2; /* Asegúrate de que esté por encima del fondo difuminado */
+    margin: 10px;
+}
+
+.form-container {
+    z-index: 2;
+    padding: 40px;
+    width: 490px; /* Ancho fijo para el formulario */
+    background-color: #ffffff;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+}
+
+.image-container {
+    z-index: 2;
+    background-image: url("https://heroku-cforemoto-blog-strapi.s3.us-west-2.amazonaws.com/auditoria_de_procesos_1200x800_ab38975d4f.jpeg");
+    background-size: cover;
+    flex: 1;
+    width: 410px; /* Ancho fijo para la imagen */
+    height: auto;
+}
+
+.image-forgotPass-container {
+    z-index: 2;
+    background-image: url("https://www.segurilatam.com/wp-content/uploads/sites/5/2020/09/contrasenas-seguras-tablet-900x600.jpg");
+    background-size: cover; /* Asegura que la imagen cubra el contenedor */
+    flex: 1;
+    width: 410px; 
+    position: relative;
+}
+
+.image-forgotPass-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3); /* Color negro con opacidad */
+    z-index: 1; /* Asegura que este fondo esté detrás del contenido */
+}
+
+h2 {
+    text-align: left;
+    font-size: 20px;
+}
+
+.input-container {
+    position: relative;
+    margin: 10px 0;
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px 40px;
+    height: 40px; /* Altura fija */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.icon {
+    position: absolute;
+    left: 10px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    color: #aaa; 
+    font-size: 1.2rem; 
+}
+
+.login-input::placeholder {
+    color: #aaa; 
+}
+
+
+.login-button {
+    width: 100%; /* Botón del mismo ancho que el input */
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    background-color: #2e7344; /* Color del botón */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.login-button:hover {
+    background-color: #42a561; /* Color del botón al pasar el cursor */
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+
+a {
+    display: block;
+    text-align: left; /* Centrar el enlace */
+    margin-top: 10px; /* Espaciado superior */
+    color: #2e7344; /* Color del enlace */
+    text-decoration: none; /* Sin subrayado */
+    font-size: small;
+}
+
+a:hover {
+    text-decoration: underline; /* Subrayado al pasar el cursor */
+}
+
+.login-back-button-container {
+    position: absolute; /* Para posicionarlo en la esquina superior izquierda */
+    top: 20px; /* Espaciado desde arriba */
+    left: 20px; /* Espaciado desde la izquierda */
+    z-index: 3; /* Para asegurarte de que esté sobre el fondo */
+}
+
+.back-button {
+    background: transparent; /* Fondo transparente */
+    border: none; /* Sin bordes */
+    cursor: pointer; /* Cambiar cursor al pasar el ratón */
+    color: #6d6c6c; /* Color del ícono */
+    outline: none; /* Sin contorno */
+    padding: 0; /* Sin espaciado interior */
+}
+
+.back-button:hover::after {
+    content: ''; /* Crea un nuevo elemento */
+    position: absolute; /* Posición absoluta */
+    top: 50%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -40%); /* Centra el elemento */
+    width: 40px; /* Ancho del círculo */
+    height: 40px; /* Alto del círculo */
+    border-radius: 50%; /* Hace que el elemento sea circular */
+    background-color: rgba(190, 190, 190, 0.288); /* Color gris con opacidad */
+    z-index: -1; /* Asegúrate de que el círculo esté detrás del icono */
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column; /* Colocar los elementos uno debajo del otro */
+        height: auto; /* Ajustar la altura */
+    }
+
+    .image-container {
+        display: none; /* Ocultar la imagen en pantallas pequeñas */
+    }
+
+    .form-container {
+        width: 100%; /* Ocupa el 100% del ancho disponible */
+        padding: 20px; /* Reducir el padding para móviles */
+    }
+}

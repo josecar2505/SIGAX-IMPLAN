@@ -1,0 +1,54 @@
+/* Modal.css */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Dimming effect */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50; /* Ensure it appears above other content */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px; /* You can adjust the width as needed */
+    text-align: center; /* Center the text */
+}
+
+.modal-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.modal-actions {
+    margin-top: 20px;
+}
+
+.btn-sai {
+    background-color: #6c757d; /* Gris oscuro */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-sai:hover {
+    background-color: #5a6268; /* Gris más oscuro */
+    transform: scale(1.05);
+}
+
+.btn-sai:active {
+    background-color: #545b62; /* Gris aún más oscuro al hacer clic */
+    transform: scale(0.95);
+}
+
