@@ -9,6 +9,7 @@ import GestionAuditores from './components/contraloria/GestionAuditores';
 import PlanAuditorias from './components/contraloria/PlanAuditorias';
 import AuditoriaForm from './components/contraloria/AuditoriaForm';
 import PlanificarAuditorias from './components/contraloria/PlanificarAuditorias';
+import DashboardContralor from './components/contraloria/DashBoardContralor';
 
 function App() {
   return (
@@ -21,7 +22,6 @@ function App() {
           <Route path='forgotPassword' element={<ForgotPassword />} />
 
           {/* Rutas Privadas - Auditor */}
-
           {/* Gestión de Auditores - Solo Contralor */}
           <Route path='contraloria/gestionAuditores' element={
             <PrivateRoute requiredRole="CONTRALOR">
@@ -36,15 +36,21 @@ function App() {
             </PrivateRoute>
           } />
 
-          {/* Formulario para Crear Auditoría */}
-          <Route path='contraloria/PlanificarAuditorias' element={
+          {/* Planificar Auditorías - Solo Contralor */}
+          <Route path='contraloria/planificar-auditorias/:nombrePlanAnual' element={
             <PrivateRoute requiredRole="CONTRALOR">
               <PlanificarAuditorias />
             </PrivateRoute>
           } />
 
-          <Route path="/auditoria/:id" element={<AuditoriaForm />} />
+          {/* Dashboard Contralor*/}
+          <Route path='contraloria/DashboardContralor' element={
+            <PrivateRoute requiredRole="CONTRALOR">
+              <DashboardContralor />
+            </PrivateRoute>
+          } />
 
+          <Route path="/auditoria/:id" element={<AuditoriaForm />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

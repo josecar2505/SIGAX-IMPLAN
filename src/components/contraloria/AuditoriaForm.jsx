@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Select from 'react-select';
 import { collection, getDocs, query, doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/config";
-import { useLocation, useNavigate } from "react-router-dom"; // Importa useNavigate para redirigir
+import { db, storage } from "../firebase/config"; // Asegúrate de importar `storage` también
+import { useLocation, useNavigate } from "react-router-dom";
+import { ref, uploadBytes } from "firebase/storage"; // Importa funciones de almacenamiento
+import jsPDF from "jspdf"; // Importa jsPDF para la generación del PDF
 import "../../CSS/AuditoriaForm.css";
 
 const AuditoriaForm = () => {
@@ -13,7 +15,7 @@ const AuditoriaForm = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [auditoresSeleccionados, setAuditoresSeleccionados] = useState(auditoria.auditores || []);
-  const navigate = useNavigate(); // Hook para redirigir
+  const navigate = useNavigate();
   const [tiposAuditoria] = useState([
     { value: "Desempeño", label: "Desempeño" },
     { value: "Financiera", label: "Financiera" },
@@ -49,11 +51,41 @@ const AuditoriaForm = () => {
     setAuditoria({ ...auditoria, [campo]: valor });
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.text(`Auditoría: ${auditoria.nombre || `Auditoría ${auditoria.id}`}`, 10, 10);
+    doc.text(`Dependencia: ${auditoria.dependenciaNombre || "Sin dependencia"}`, 10, 20);
+    doc.text(`Tipo de Auditoría: ${auditoria.tipoAuditoria || ""}`, 10, 30);
+    doc.text(`Auditores: ${auditoresSeleccionados.join(", ")}`, 10, 40);
+    doc.text(`Supervisor: ${auditoria.supervisor || ""}`, 10, 50);
+    doc.text(`Fecha de Inicio: ${auditoria.fechaInicio || ""}`, 10, 60);
+    doc.text(`Fecha de Fin: ${auditoria.fechaFin || ""}`, 10, 70);
+
+    return doc;
+  };
+
+  const savePDFtoStorage = async (pdfDoc) => {
+    const pdfBlob = pdfDoc.output("blob");
+
+    const storageRef = ref(storage, `auditorias/${auditoria.id}/auditoria_${auditoria.id}.pdf`);
+    try {
+      await uploadBytes(storageRef, pdfBlob);
+      console.log("PDF subido correctamente a Firestore Storage.");
+    } catch (error) {
+      console.error("Error al subir el PDF:", error);
+    }
+  };
+
   const handleSave = async () => {
     try {
       const auditoriaRef = doc(db, 'auditorias', auditoria.id);
-      await updateDoc(auditoriaRef, auditoria); // Actualiza la auditoría en Firestore
-      // Redirige después de 5 segundos
+      await updateDoc(auditoriaRef, auditoria);
+
+      // Genera el PDF y súbelo a Firestore Storage
+      const pdfDoc = generatePDF();
+      await savePDFtoStorage(pdfDoc);
+
+      // Redirige después de 3 segundos
       setTimeout(() => {
         navigate("/contraloria/PlanAuditorias");
       }, 3000);
@@ -74,8 +106,6 @@ const AuditoriaForm = () => {
       <div className="auditoria-form">
         <h3 className="auditoria-title">{auditoria.nombre || `Auditoría ${auditoria.id}`}</h3>
 
-
-        {/* Campo no editable para la dependencia */}
         <label htmlFor="dependencia">Dependencia</label>
         <input
           id="dependencia"
@@ -143,15 +173,12 @@ const AuditoriaForm = () => {
           </div>
         </div>
 
-        {/* Contenedor para los botones */}
         <div className="button-container">
           <button className="buttonBack" onClick={() => navigate("/contraloria/PlanAuditorias")}>
             Cancelar y volver
           </button>
           <button className="buttonAuditoriaForm" onClick={handleSave}>Guardar</button>
-
         </div>
-
       </div>
     </div>
   );

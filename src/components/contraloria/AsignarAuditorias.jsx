@@ -6,17 +6,34 @@ import '../../CSS/PlanificacionInicial.css';
 import '../../CSS/Modal.css'; // Importa el archivo CSS
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-const AsignarAuditorias = ({ selectedDependencias, totalAuditorias, onBack }) => {
+const AsignarAuditorias = ({ selectedDependencias, totalAuditorias, onBack, programaId }) => {
 
     const navigate = useNavigate();
     const currentYear = new Date().getFullYear(); //Obtener el año actual
     const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
     const [modalMessage, setModalMessage] = useState(''); // Mensaje del modal
     const [snackbarVisible, setSnackbarVisible] = useState(false);
+
+    // Variable para contar auditorías por dependencia
+    const auditoriaCounts = {};
+
+    // Función para generar el nombre de la auditoría
+    const generarNombreAuditoria = (dependencia, tipoAuditoria, numeroAuditoria, año) => {
+        const inicialesDependencia = dependencia.label
+            .split(' ')  // Dividir el nombre por espacios
+            .map(word => word.charAt(0).toUpperCase()) // Obtener la primera letra y convertir a mayúscula
+            .join('');  // Unir las letras en una cadena
+        const inicialesTipo = tipoAuditoria
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase())
+            .join('');
+        return `${inicialesDependencia}.${inicialesTipo}.${numeroAuditoria}.${año}`;
+    };
+
     const [auditorias, setAuditorias] = useState(
         selectedDependencias.map(() => ({ financiera: 0, obraPublica: 0, evaluacion: 0 }))
     );
-
+    console.log(selectedDependencias);
     const [auditoriasAsignadas, setAuditoriasAsignadas] = useState({
         financiera: 0,
         obraPublica: 0,
@@ -132,39 +149,55 @@ const AsignarAuditorias = ({ selectedDependencias, totalAuditorias, onBack }) =>
             return;
         }
 
+        // Guardar auditorías
         try {
             for (let i = 0; i < selectedDependencias.length; i++) {
                 const dependencia = selectedDependencias[i];
-                console.log(selectedDependencias)
                 const tiposAuditoria = [
                     { tipo: 'Financiera', cantidad: auditorias[i].financiera },
                     { tipo: 'Obra Pública', cantidad: auditorias[i].obraPublica },
                     { tipo: 'Evaluación', cantidad: auditorias[i].evaluacion }
                 ];
 
-                // Guardar cada tipo de auditoría en la colección 'auditorias'
+                // Inicializar contador para la dependencia si no existe
+                if (!auditoriaCounts[dependencia.label]) {
+                    auditoriaCounts[dependencia.label] = {};
+                }
+
                 for (const tipoAuditoria of tiposAuditoria) {
+                    const añoPrograma = new Date().getFullYear(); // Suponiendo que el programa es del año actual
+
                     for (let j = 0; j < tipoAuditoria.cantidad; j++) {
                         if (tipoAuditoria.cantidad > 0) {
+                            // Incrementar el contador para el tipo de auditoría de la dependencia
+                            if (!auditoriaCounts[dependencia.label][tipoAuditoria.tipo]) {
+                                auditoriaCounts[dependencia.label][tipoAuditoria.tipo] = 0;
+                            }
+                            auditoriaCounts[dependencia.label][tipoAuditoria.tipo]++;
+
+                            // Generar el nombre
+                            const numeroAuditoria = auditoriaCounts[dependencia.label][tipoAuditoria.tipo];
+                            const auditoriaNombre = generarNombreAuditoria(dependencia, tipoAuditoria.tipo, numeroAuditoria, añoPrograma);
+
                             await addDoc(collection(db, 'auditorias'), {
                                 auditores: [],
                                 dependenciaId: dependencia.value,
                                 fechaFin: "",
                                 fechaInicio: "",
-                                nombre: "",
+                                nombre: auditoriaNombre, // Guardar el nombre generado
                                 supervisor: "",
                                 tipoAuditoria: tipoAuditoria.tipo,
-                                dependenciaNombre: dependencia.dependenciaNombre
+                                dependenciaNombre: dependencia.label,
+                                programaId: programaId,
                             });
                         }
                     }
                 }
             }
-            navigate("/contraloria/PlanAuditorias");
         } catch (error) {
             console.error('Error al guardar las auditorías: ', error);
             setModalMessage('Hubo un error al guardar las auditorías.');
-            setIsModalOpen(true)
+            setIsModalOpen(true);
         }
     };
 
@@ -172,7 +205,7 @@ const AsignarAuditorias = ({ selectedDependencias, totalAuditorias, onBack }) =>
     return (
         <div className="asignar-auditorias-container">
             <h2>Programa anual de auditorias {currentYear}</h2>
-              {snackbarVisible && (
+            {snackbarVisible && (
                 <div className="snackbar">Datos guardados correctamente</div>
             )}
             <div className="table-wrapper">
@@ -231,7 +264,7 @@ const AsignarAuditorias = ({ selectedDependencias, totalAuditorias, onBack }) =>
                                         ? dependencia.label
                                         : <div>
                                             {dependencia.label} <br />
-                                            <span style={{ fontSize: '0.8em', color: 'gray' }}>{dependencia.dependencia}</span>
+                                            <span style={{ fontSize: '0.8em', color: 'gray' }}>{dependencia.dependenciaNombre}</span>
                                         </div>
                                     }
                                 </td>

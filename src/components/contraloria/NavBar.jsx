@@ -21,7 +21,7 @@ const NavBar = () => {
                 <FaBars size={24} />
             </div>
             <div className={`navbar-links ${isMobileMenuOpen ? 'open' : ''}`}>
-                <Link to="/" onClick={() => setMobileMenuOpen(false)}>Inicio</Link>
+                <Link to="/contraloria/DashboardContralor" onClick={() => setMobileMenuOpen(false)}>Inicio</Link>
                 <Link to="/contraloria/PlanAuditorias" onClick={() => setMobileMenuOpen(false)}>Plan Anual de Auditorias</Link>
                 <Link to="/GestionAuditores" onClick={() => setMobileMenuOpen(false)}>Gestión de Auditores</Link>
                 <Link to="/Historico" onClick={() => setMobileMenuOpen(false)}>Historico</Link>

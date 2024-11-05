@@ -4,14 +4,15 @@ import React, { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState("");
+  // Inicializa el estado con los valores de localStorage, si existen
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("authToken"));
+  const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "");
 
   // Función para iniciar sesión
-  const login = (role) => {
+  const login = (role, uid) => {
     setIsAuthenticated(true);
     setUserRole(role);
-    localStorage.setItem("authToken", "your-auth-token"); // Guarda un token o un identificador único
+    localStorage.setItem("authToken", uid); // Guarda el token generado
     localStorage.setItem("userRole", role); // Guarda el rol del usuario
   };
 
@@ -27,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const role = localStorage.getItem("userRole");
-    if (token && role) { // Verifica que ambos existan
+    if (token && role) {
       setIsAuthenticated(true);
       setUserRole(role);
     }

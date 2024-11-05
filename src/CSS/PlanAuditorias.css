@@ -4,7 +4,7 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #f9f9f9;
-    overflow-x: auto; /* Para permitir desplazamiento horizontal */
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
 }
 
 .plan-auditorias-table {
@@ -14,47 +14,61 @@
     word-wrap: break-word; /* Permitir que el texto largo se ajuste */
 }
 
-.plan-auditorias-thead th {
-    background-color: #4CAF50;
+.plan-auditorias-table th {
+    background-color: #4CAF50; /* Color verde claro */
     color: white;
     padding: 12px;
-    text-align: left;
+    text-align: center; /* Centrar texto */
     font-weight: bold;
     border: 1px solid #ddd;
+    position: relative; /* Para el hover en encabezados */
+    cursor: pointer; /* Cursor de puntero para indicar interactividad */
+    transition: background-color 0.3s; /* Transición suave para el hover */
+}
+
+.plan-auditorias-table th:hover {
+    background-color: #388E3C; /* Color verde oscuro al pasar el mouse */
 }
 
 .plan-auditorias-tbody td {
     padding: 12px;
     border: 1px solid #ddd;
-    text-align: left;
-    white-space: normal; /* Evitar que el contenido se mantenga en una línea */
-    word-break: break-word; /* Permitir quiebre de palabras largas */
+    text-align: left; /* Alineación por defecto */
+    white-space: normal; /* Permitir quiebre de palabras largas */
+    word-break: break-word; /* Permitir que el texto largo se ajuste */
+    transition: background-color 0.3s; /* Transición suave para el hover */
+}
+
+td.center-align {
+    text-align: center; /* Centrar contenido para las celdas específicas */
+    align-items: center;
 }
 
 /* Alternar color de fondo para las filas */
 .plan-auditorias-tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f2f2f2; /* Color gris claro para filas pares */
 }
 
 /* Hover en las filas de la tabla */
 .plan-auditorias-tbody tr:hover {
-    background-color: #ddd;
+    background-color: #d9f9d9; /* Color verde suave al pasar el mouse */
 }
 
 .plan-auditorias-button {
-    background-color: transparent; /* Color de fondo verde */
-    color: #4CAF50; /* Color del texto */
+    background-color: transparent; /* Sin color de fondo */
+    color: rgb(68, 66, 66); /* Color del texto verde */
     padding: 10px 20px; /* Espaciado interno */
-    border: none; /* Sin borde */
+    border: 2px solid #3f3e3e; /* Borde verde */
     border-radius: 5px; /* Bordes redondeados */
     font-size: 16px; /* Tamaño de fuente */
     cursor: pointer; /* Cursor de puntero */
-    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transición suave */
 }
 
 .plan-auditorias-button:hover {
-    background-color: transparent;
-    color:#45A049; /* Color de fondo verde más oscuro al pasar el mouse */
+    background-color: transparent; /* Color verde al pasar el mouse */
+    color: #4CAF50; /* Cambiar texto a blanco */
+    border-color: #388E3C; /* Cambiar borde a color más oscuro */
 }
 
 /* Para pantallas pequeñas */
@@ -69,12 +83,12 @@
         table-layout: auto; /* Cambiar a auto para mayor flexibilidad en pantallas pequeñas */
     }
 
-    /* Mantén el encabezado visible */
+    /* Mantener el encabezado visible */
     .plan-auditorias-thead th {
         display: table-cell; /* Mantener encabezado de la tabla visible */
     }
 
-    /* No apilar las celdas en bloque, mantener el formato de tabla */
+    /* Mantener formato de tabla */
     .plan-auditorias-tbody td {
         display: table-cell; /* Mantener celdas en formato tabla */
         padding: 8px;

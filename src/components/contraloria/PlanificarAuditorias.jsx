@@ -7,6 +7,7 @@ import '../../CSS/PlanificacionInicial.css'; // Asegúrate de importar el archiv
 import { db } from '../firebase/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { useParams } from 'react-router-dom';
 
 const PlanificarAuditorias = () => {
     const [dependencias, setDependencias] = useState([]);
@@ -15,28 +16,31 @@ const PlanificarAuditorias = () => {
     const [mostrarAsignarAuditorias, setMostrarAsignarAuditorias] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
     const [modalMessage, setModalMessage] = useState(''); // Mensaje del modal
-
+    const {nombrePlanAnual} = useParams();
     useEffect(() => {
         cargarDependencias();
     }, []);
 
     const cargarDependencias = async () => {
+        //Obtener las dependencias de la base de datos
         const dependenciasSnapshot = await getDocs(collection(db, 'dependencias'));
+        //Recorre las dependencias y busca los departamentos
         const dependenciasList = await Promise.all(dependenciasSnapshot.docs.map(async (doc) => {
             const departamentosSnapshot = await getDocs(collection(db, 'dependencias', doc.id, 'departamentos'));
             const departamentosList = departamentosSnapshot.docs.map((departamentoDoc) => ({
-                value: departamentoDoc.id, // Usar un ID único
-                label: departamentoDoc.data().nombreDepartamento,
-                titular: departamentoDoc.data().titular,
+                value: departamentoDoc.id, //Departamento id 
+                label: departamentoDoc.data().nombreDepartamento, //Nombre del departamento
+                titular: departamentoDoc.data().titular, // Titular
                 type: 'departamento', // Para identificar como departamento
                 dependenciaNombre: doc.data().nombre // Agregar nombre de la dependencia
             }));
 
             return [
                 {
-                    value: doc.id,
-                    label: doc.data().nombre,
-                    titular: doc.data().titular,
+                    //Aqui sale la info de las dependencias
+                    value: doc.id, //Dependencia id
+                    label: doc.data().nombre, //Nombre de la dependencia
+                    titular: doc.data().titular, //Titular de la dependencia
                     type: 'dependencia', // Para identificar como dependencia
                 },
                 ...departamentosList,
@@ -52,9 +56,12 @@ const PlanificarAuditorias = () => {
 
     const handleSelectChange = (option) => {
         if (!selectedDependencias.some(dep => dep.value === option.value)) {
+            //Agrega la dependencia a la lista de dependencias seleccionadas
             setSelectedDependencias([...selectedDependencias, option]);
+            //Actualiza la lista de dependencias para no mostrar en el select la dependencia que se acaba de agregar
             setDependencias(dependencias.filter(dep => dep.value !== option.value));
         }
+        console.log(selectedDependencias);
     };
 
     const handleRemoveDependencia = (dependencia) => {
@@ -92,10 +99,11 @@ const PlanificarAuditorias = () => {
                     selectedDependencias={selectedDependencias}
                     totalAuditorias={totalAuditorias}
                     onBack={handleVolver}
+                    programaId={nombrePlanAnual}
                 />
             ) : (
                 <div className='plan-container'>
-                    <h2>Planificar Auditorías</h2>
+                    <h2>Planificar Auditorías - {nombrePlanAnual}</h2>
                     <label>Sujetos Fiscalizables</label>
                     <Select
                         options={dependencias}

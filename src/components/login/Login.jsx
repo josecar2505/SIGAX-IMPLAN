@@ -1,22 +1,35 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaLock,  } from "react-icons/fa6";
+import { FaLock } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa";
 import { AiOutlineArrowLeft } from 'react-icons/ai'; 
 import { Link, useNavigate } from 'react-router-dom';
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { db } from '../firebase/config';
-import { AuthContext } from '../auth/AuthContext'; // Importar AuthContext
+import { AuthContext } from '../auth/AuthContext';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import '../../CSS/login.css';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // Obtener la función de login desde el contexto
+  const { login } = useContext(AuthContext);
   const [auditorias, setAuditorias] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const auth = getAuth();
+
   const verificarAuditorias = async () => {
     const auditoriasRef = collection(db, 'auditorias');
     const querySnapshot = await getDocs(auditoriasRef);
-
+    
     if (!querySnapshot.empty) {
       const auditoriasData = querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -28,48 +41,69 @@ const Login = () => {
     }
   };
 
-    // Ejecuta verificarAuditorias cuando se monta el componente
-    useEffect(() => {
-      verificarAuditorias();
-    }, []);
-  
+  useEffect(() => {
+    verificarAuditorias();
+  }, []);
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
   const onSubmit = async (data) => {
     try {
-      // Consulta a Firestore buscando el usuario
-      const q = query(collection(db, "usuarios"), where("usuario", "==", data.username));
-      const querySnapshot = await getDocs(q);
+      let email = data.emailOrUsername;
+      let password = data.password;
 
-      if (!querySnapshot.empty) {
-        const userData = querySnapshot.docs[0].data(); 
-
-        if (userData.password === data.password) {
-          
-          // Llamamos a la función login con el rol del usuario
-          login(userData.rol);
-
-          // Guarda el token y el rol en localStorage
-          localStorage.setItem("userName", userData.name); // Aquí puedes cambiar "your-auth-token" por un token real si tienes uno
-          localStorage.setItem("userRole", userData.rol); // Guarda el rol del usuario
-          // Redirigir según el rol
-          if (userData.rol === "AUDITOR") {
-            navigate("/auditoria");
-          } else if (userData.rol === "CONTRALOR") {
-            if(auditorias && auditorias.length> 0){
-              navigate("/contraloria/PlanAuditorias")
-            }else{
-              navigate("/contraloria/PlanificarAuditorias")
-            }
-          } else {
-            alert("Rol desconocido. Contacta al administrador.");
-          }
+      if (!email.includes('@')) {
+        const usersRef = collection(db, 'usuarios');
+        const q = query(usersRef, where("usuario", "==", email));
+        
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0];
+          email = userDoc.data().email;
         } else {
-          alert("Contraseña incorrecta.");
+          setSnackbarMessage("Nombre de usuario no encontrado.");
+          setSnackbarSeverity("error");
+          setSnackbarOpen(true);
+          return;
+        }
+      }
+
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      const userDocRef = doc(db, "usuarios", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        login(userData.rol, user.uid);
+        localStorage.setItem("authToken", user.uid);
+        localStorage.setItem("userName", userData.name);
+        localStorage.setItem("userRole", userData.rol);
+        //Navegación dependiendo del rol del usuario
+        if (userData.rol === "AUDITOR") {
+          navigate("/auditoria");
+        } else if (userData.rol === "CONTRALOR") {
+          //Condición si hay o nel auditorias
+          //navigate(auditorias && auditorias.length > 0 ? "/contraloria/PlanAuditorias" : "/contraloria/PlanificarAuditorias");
+          navigate("/contraloria/DashboardContralor");
+        } else {
+          setSnackbarMessage("Rol desconocido. Contacta al administrador.");
+          setSnackbarSeverity("error");
+          setSnackbarOpen(true);
         }
       } else {
-        alert("Usuario no encontrado.");
+        setSnackbarMessage("No se encontró información adicional del usuario.");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
       }
     } catch (error) {
-      alert("Ocurrió un error al iniciar sesión.");
+      setSnackbarMessage("Error al iniciar sesión. Revisa tu usuario/correo y contraseña.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -86,32 +120,39 @@ const Login = () => {
           <h2>Ingresar</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="input-container">
-              <FaLock className="icon" />
+              <FaUser className="icon" />
               <input
-              className='login-input'
+                className='login-input'
                 type="text"
-                placeholder="Usuario"
-                {...register("username")}
+                placeholder="Correo o nombre de Usuario"
+                {...register("emailOrUsername")}
                 required
               />
             </div>
-
-
             <div className="input-container">
               <FaLock className="icon" />
               <input
-              className='login-input'
+                className='login-input'
                 type="password"
                 placeholder="Contraseña"
                 {...register("password")}
                 required 
               />
             </div>
-
             <button type="submit" className='login-button'>Ingresar</button>
             <br />
             <a href="/forgotPassword">¿Olvidaste tu contraseña?</a>
           </form>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     </div>
